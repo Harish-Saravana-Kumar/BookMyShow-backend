@@ -1,0 +1,6 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "java -jar target/bookmyshow-backend-1.0.0.jar"
+restartPolicyType = "always"
