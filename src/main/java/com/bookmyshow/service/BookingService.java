@@ -3,6 +3,8 @@ package com.bookmyshow.service;
 import com.bookmyshow.model.TicketBooking;
 import com.bookmyshow.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public class BookingService {
     @Autowired
     private ShowService showService;
 
+    @CacheEvict(value = "userBookings", key = "#userId")
     public TicketBooking createBooking(String userId, String movieId, String showId, 
                                        List<String> selectedSeats, double totalAmount) {
         TicketBooking booking = new TicketBooking();
@@ -33,10 +36,12 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
+    @Cacheable(value = "userBookings", key = "#userId")
     public List<TicketBooking> getBookingsByUserId(String userId) {
         return bookingRepository.findByUserId(userId);
     }
 
+    @Cacheable(value = "booking", key = "#bookingId")
     public Optional<TicketBooking> getBookingById(String bookingId) {
         return bookingRepository.findById(bookingId);
     }

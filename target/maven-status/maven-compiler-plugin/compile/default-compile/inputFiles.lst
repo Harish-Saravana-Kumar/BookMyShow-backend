@@ -1,5 +1,6 @@
 H:\BookMyShow\backend\src\main\java\com\bookmyshow\controller\MovieController.java
 H:\BookMyShow\backend\src\main\java\com\bookmyshow\config\DataSeeder.java
+H:\BookMyShow\backend\src\main\java\com\bookmyshow\config\RedisConfig.java
 H:\BookMyShow\backend\src\main\java\com\bookmyshow\dto\LoginRequest.java
 H:\BookMyShow\backend\src\main\java\com\bookmyshow\model\TicketBooking.java
 H:\BookMyShow\backend\src\main\java\com\bookmyshow\service\BookingService.java

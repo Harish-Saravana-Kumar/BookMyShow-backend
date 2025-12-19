@@ -3,6 +3,8 @@ package com.bookmyshow.service;
 import com.bookmyshow.model.ShowAndSeat;
 import com.bookmyshow.repository.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +16,17 @@ public class ShowService {
     @Autowired
     private ShowRepository showRepository;
 
+    @Cacheable(value = "showsByMovieId", key = "#movieId")
     public List<ShowAndSeat> getShowsByMovieId(String movieId) {
         return showRepository.findByMovieId(movieId);
     }
 
+    @Cacheable(value = "show", key = "#showId")
     public Optional<ShowAndSeat> getShowById(String showId) {
         return showRepository.findById(showId);
     }
 
+    @CacheEvict(value = "show", key = "#showId")
     public ShowAndSeat bookSeats(String showId, List<String> selectedSeats) {
         Optional<ShowAndSeat> show = showRepository.findById(showId);
         if (show.isPresent()) {
@@ -36,6 +41,7 @@ public class ShowService {
         throw new RuntimeException("Show not found");
     }
 
+    @Cacheable(value = "availableSeats", key = "#showId")
     public List<ShowAndSeat.Seat> getAvailableSeats(String showId) {
         Optional<ShowAndSeat> show = showRepository.findById(showId);
         if (show.isPresent()) {
